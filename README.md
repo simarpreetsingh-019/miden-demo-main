@@ -5,13 +5,11 @@
 Ever wanted to vote online without giving up your identity or relying on a centralized system? That’s exactly what **StealthVote** does. Built using the [Miden SDK](https://github.com/0xMiden/miden-sdk), this app lets you create private voting polls where only eligible users can cast a vote — but no one, not even the admin, can trace who voted or what they voted. That’s real privacy — and it works entirely in your browser.
 
 Frankly saying , that was not even the initial idea.
-Idea was to build an anonymous weight based voting system with escrow. weight vote because the vote power would be equal to your job position / role in company or how much money you lock in to by the power. helpful in some cases like DAOs or agencies. but I thought lets make this into step by step process to have better understanding, one step at a time. 
+Idea was to build an anonymous weight based voting system with escrow. weight vote because the vote power would be equal to your job position / role in company or how much money you lock in to by the power. helpful in some cases like DAOs or agencies. but I thought lets make this into step by step process to have better understanding, one step at a time.
 
 I have added the console to let the learner see what's happening behind the scene also when the interaction is happening or using any function of Miden SDK.
 
-
 https://github.com/user-attachments/assets/95fa99d6-b996-4ee6-8e1c-45a7b2c77481
-
 
 ---
 
@@ -46,14 +44,16 @@ This project is a proof of concept to show how anonymous voting can work — eve
 ## 📚 Key Concepts
 
 ### 1. Merkle Root for Eligibility
+
 Instead of storing a voter list, we hash all voter notes and build a Merkle Tree. The Merkle Root is published as the “fingerprint” of all eligible voters. This lets voters prove inclusion without revealing their identity.
 
 ### 2. Private Account Notes
+
 Each eligible voter receives a unique Miden account that serves as their "ballot". These notes are one-time use and unlinkable to their identity.
 
 ---
 
-## 🧑‍🏫 Step-by-Step Tutorial  
+## 🧑‍🏫 Step-by-Step Tutorial
 
 ### Click here to check demo of [Anonymous Voting Dapp Demo video](https://youtu.be/iDYPuabLJh8]) on youtube.
 
@@ -99,7 +99,7 @@ Behind the scenes:
 
 ```ts
 const account = await client.newWallet(AccountStorageMode.private(), true);
-const noteId = "note_" + Math.random().toString(36).substring(2, 10);
+const noteId = 'note_' + Math.random().toString(36).substring(2, 10);
 voterNotes.set(noteId, { id: noteId, hasVoted: false });
 ```
 
@@ -108,7 +108,7 @@ Each note is basically your private, one-time-use voting token.
 Click `> GENERATE MERKLE ROOT` to finalize eligibility.
 
 ```ts
-const allHashes = Array.from(voterNotes.keys()).sort().join("|");
+const allHashes = Array.from(voterNotes.keys()).sort().join('|');
 const merkleRoot = simpleHash(allHashes);
 ```
 
@@ -120,7 +120,7 @@ A voter enters their note ID and selects Yes/No. Then clicks `> CAST VOTE`.
 
 ```ts
 const note = voterNotes.get(noteId);
-if (note.hasVoted) throw new Error("Already voted");
+if (note.hasVoted) throw new Error('Already voted');
 note.hasVoted = true;
 tally[choice]++;
 ```
@@ -142,9 +142,11 @@ Click `> VIEW TALLY` to see total votes.
 ## ⚠️ Common Pitfalls
 
 ### 1. SDK Errors on Public Testnet
+
 Use a local node — public testnet often fails or hangs on `submitTransaction`.
 
 ### 2. Misusing Notes
+
 Each note is **single-use**. Trying to reuse a note will throw an error — intentionally.
 
 ---
@@ -159,9 +161,12 @@ Users can lock tokens as "vote weight" and cast a vote. Here's how it might look
 
 ```ts
 const voteWeight = 100_000n;
-const script = generateVoteScript("YES", voteWeight);
+const script = generateVoteScript('YES', voteWeight);
 const tx = await client.newScriptedTransactionRequest(
-  user.id(), escrow.id(), script, voteWeight
+  user.id(),
+  escrow.id(),
+  script,
+  voteWeight
 );
 await client.submitTransaction(await client.newTransaction(user.id(), tx));
 ```
@@ -196,10 +201,11 @@ The Miden SDK makes local proving and wallet creation incredibly smooth, which i
 ### ✅ Suggested Improvement
 
 > Add a `NoteManager` utility inside the SDK that can:
+>
 > - Track local note usage
 > - Generate Merkle trees
 > - Provide helper for creating proof-of-inclusion ZK circuits  
-It’d save everyone from having to write glue code just to track note usage or Merkle trees.
+>   It’d save everyone from having to write glue code just to track note usage or Merkle trees.
 
 > - The docs link to [Miden client - Typescript ](https://0xmiden.github.io/miden-docs/imported/miden-client/src/web-client/index.html) needs to be updated, it wasted a lot of time figuring out how things will work when half of the links were not working in the sub pages.
 > - The major problem i faced was to understand or write using Miden Assembly, but as far as AI can help, there is posibility for making an ai tool to help make masm for the required idea we want, and the MASM playgfround is okay but a lot of learning curve for new dev.

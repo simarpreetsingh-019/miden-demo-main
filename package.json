@@ -9,6 +9,7 @@
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
     "cra-template-pwa": "2.0.0",
+    "js-sha256": "^0.11.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.7.0",
