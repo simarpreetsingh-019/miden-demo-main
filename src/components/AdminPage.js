@@ -210,7 +210,7 @@ const AdminPage = ({ setMintedNotes, setMintedHashes }) => {
       <ConsoleOutput lines={consoleLines} />
       {notes.length > 0 && (
         <Paper sx={{ p: 2, mt: 2 }}>
-          <Typography variant="subtitle2">First 5 Notes (for demo):</Typography>
+          <Typography variant="subtitle2">First {numNotes} Notes (for demo):</Typography>
           <ul style={{ fontFamily: 'monospace', fontSize: 14 }}>
             {notes.slice(0, 5).map((n, i) => (
               <li key={i}>{n}</li>
