@@ -45,7 +45,7 @@ function App() {
         >
           Can’t connect to a node?{' '}
           <a
-            href="https://sim.miden-vote-demo.xyz"
+            href="https://sim-miden-demo-main.vercel.app/z"
             target="_blank"
             rel="noopener noreferrer"
             style={{
